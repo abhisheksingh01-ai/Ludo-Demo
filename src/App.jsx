@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; // 1. useEffect import kiya
 import "./styles.css";
 
 export default function App() {
   const [step, setStep] = useState(1);
+  const [showExtras, setShowExtras] = useState(false); // 2. Extras ke liye state
+
+  // 3. Har step change par delay function
+  useEffect(() => {
+    setShowExtras(false); // Naye step par pehle hide karo
+    const timer = setTimeout(() => {
+      setShowExtras(true); // 1 second baad dikhao
+    }, 1000); // Aap is time ko change kar sakte hain (e.g., 500ms ya 1500ms)
+
+    return () => clearTimeout(timer); // Cleanup timer
+  }, [step]);
 
   return (
     <div className="screen">
-      {/* Background Image */}
       <img
         src={import.meta.env.BASE_URL + `screens/s${step}.jpeg`}
         className="bg"
@@ -22,18 +32,17 @@ export default function App() {
         />
       )}
 
-      {/* 2️⃣ Gender Selection */}
+      {/* 2️⃣ Gender Selection - Added showExtras check */}
       {step === 2 && (
         <div className="gender-card">
-          <RedCross onNext={() => setStep(3)} />
+          {showExtras && <RedCross onNext={() => setStep(3)} />}
         </div>
       )}
 
+      {/* 3️⃣ Step with DownArrow - Added showExtras check */}
       {step === 3 && (
         <>
-          {/* 👇 MOVED: Higher (15%) and to the Left (10%) */}
-          <DownArrow style={{ left: "14%", top: "23%" }} /> 
-          
+          {showExtras && <DownArrow style={{ left: "14%", top: "23%" }} />} 
           <Hotspot
             style={{ left: "5%", top: "40%", width: "45%", height: "25%" }}
             onNext={() => setStep(4)}
@@ -70,74 +79,43 @@ export default function App() {
         />
       )}
 
-      {/* 7️⃣ NEW: LEFT SIDE ARROW (Bottom, 20% from Left) */}
+      {/* 7️⃣ LEFT SIDE ARROW - Added showExtras check */}
       {step === 7 && (
         <>
-          {/* ◀ Arrow: Moved further right (35%) and lower (12%) */}
-          <LeftArrow style={{ left: "28%", bottom: "15%" }} />
-
+          {showExtras && <LeftArrow style={{ left: "28%", bottom: "15%" }} />}
           <Hotspot
             style={{ left: "5%", bottom: "10%", width: "30%", height: "20%" }}
             onNext={() => setStep(8)}
           />
         </>
       )}
-
     </div>
   );
 }
 
-/* 🔥 NEW LEFT ARROW COMPONENT */
+/* Baki components same rahenge */
 function LeftArrow({ style }) {
-  return (
-    <div className="left-arrow" style={style}>
-      ◀
-    </div>
-  );
+  return <div className="left-arrow" style={style}>◀</div>;
 }
 function DownArrow({ style }) {
-  return (
-    <div className="down-arrow" style={style}>
-      ▼
-    </div>
-  );
+  return <div className="down-arrow" style={style}>▼</div>;
 }
-
-/* 🔥 UNIVERSAL HOTSPOT – REAL MOBILE SAFE */
 function Hotspot({ style, onNext }) {
   return (
     <div
       className="hotspot"
       style={style}
-      onTouchStart={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onNext();
-      }}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onNext();
-      }}
+      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); onNext(); }}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onNext(); }}
     />
   );
 }
-
-/* 🔴 RED CROSS */
 function RedCross({ onNext }) {
   return (
     <div
       className="red-cross"
-      onTouchStart={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onNext();
-      }}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onNext();
-      }}
+      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); onNext(); }}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onNext(); }}
     >
       ✕
     </div>
