@@ -1,85 +1,75 @@
 import { useState } from "react";
 
-export default function App() {
-  const [screen, setScreen] = useState(1);
+const BASE_WIDTH = 1080;
+const BASE_HEIGHT = 1920;
 
-  const next = (n) => setScreen(n);
+export default function App() {
+  const [step, setStep] = useState(1);
 
   return (
-    <div className="container">
-      {screen === 1 && (
-        <ImageScreen
-          src="/images/1-login.png"
-          hotspots={[
-            { x: "50%", y: "65%", w: "60%", h: "8%", onClick: () => next(2) } // Guest Login
-          ]}
-        />
-      )}
+    <div className="wrapper">
+      <Screen
+        img={import.meta.env.BASE_URL + `screens/s${step}.jpeg`}
+        onClick={(x, y) => {
+          console.log("CLICK:", x, y);
 
-      {screen === 2 && (
-        <ImageScreen
-          src="/images/2-gender.jpeg"
-          hotspots={[
-            { x: "78%", y: "18%", w: "8%", h: "8%", onClick: () => next(3) } // ❌ Cross
-          ]}
-        />
-      )}
+          // 1️⃣ Guest Login
+          if (step === 1 && hit(x, y, 420, 1120, 660, 1220)) {
+            setStep(2);
+          }
 
-      {screen === 3 && (
-        <ImageScreen
-          src="/images/3-home.jpeg"
-          hotspots={[
-            { x: "25%", y: "45%", w: "30%", h: "18%", onClick: () => next(4) } // Online Card
-          ]}
-        />
-      )}
+          // 2️⃣ OK button (Gender popup)
+          else if (step === 2 && hit(x, y, 300, 1000, 780, 1180)) {
+            setStep(3);
+          }
 
-      {screen === 4 && (
-        <ImageScreen
-          src="/images/4-online.jpeg"
-          hotspots={[
-            { x: "25%", y: "45%", w: "50%", h: "18%", onClick: () => next(5) }
-          ]}
-        />
-      )}
+          // 3️⃣ Online card (Home)
+          else if (step === 3 && hit(x, y, 120, 760, 520, 1120)) {
+            setStep(4);
+          }
 
-      {screen === 5 && (
-        <ImageScreen
-          src="/images/5-classic.jpeg"
-          hotspots={[
-            { x: "25%", y: "40%", w: "50%", h: "18%", onClick: () => next(6) } // Classic
-          ]}
-        />
-      )}
+          // 4️⃣ Online card (Mode select)
+          else if (step === 4 && hit(x, y, 120, 760, 520, 1120)) {
+            setStep(5);
+          }
 
-      {screen === 6 && (
-        <ImageScreen
-          src="/images/6-play.jpeg"
-          hotspots={[
-            { x: "20%", y: "65%", w: "60%", h: "12%", onClick: () => next(7) } // Play
-          ]}
-        />
-      )}
+          // 5️⃣ Classic button
+          else if (step === 5 && hit(x, y, 260, 780, 820, 1000)) {
+            setStep(6);
+          }
 
-      {screen === 7 && (
-        <ImageScreen src="/images/7-board.jpeg" hotspots={[]} />
-      )}
+          // 6️⃣ Play button
+          else if (step === 6 && hit(x, y, 260, 1100, 820, 1300)) {
+            setStep(7);
+          }
+        }}
+      />
     </div>
   );
 }
 
-function ImageScreen({ src, hotspots }) {
+// 🔍 Click detection helper
+function hit(x, y, x1, y1, x2, y2) {
+  return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+}
+
+// 🖼️ Screen renderer
+function Screen({ img, onClick }) {
+  const handleClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const scaleX = BASE_WIDTH / rect.width;
+    const scaleY = BASE_HEIGHT / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+    onClick(x, y);
+  };
+
   return (
-    <div className="screen">
-      <img src={src} className="bg" />
-      {hotspots.map((h, i) => (
-        <div
-          key={i}
-          className="hotspot"
-          style={{ left: h.x, top: h.y, width: h.w, height: h.h }}
-          onClick={h.onClick}
-        />
-      ))}
+    <div className="screen" onClick={handleClick}>
+      <img src={img} alt="screen" draggable={false} />
     </div>
   );
 }
