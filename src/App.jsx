@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react"; // 1. useEffect import kiya
+import { useState, useEffect } from "react";
 import "./styles.css";
 
 export default function App() {
   const [step, setStep] = useState(1);
-  const [showExtras, setShowExtras] = useState(false); // 2. Extras ke liye state
+  const [showExtras, setShowExtras] = useState(false);
 
-  // 3. Har step change par delay function
   useEffect(() => {
-    setShowExtras(false); // Naye step par pehle hide karo
+    setShowExtras(false);
     const timer = setTimeout(() => {
-      setShowExtras(true); // 1 second baad dikhao
-    }, 1000); // Aap is time ko change kar sakte hain (e.g., 500ms ya 1500ms)
+      setShowExtras(true);
+    }, 1000); // 1 second ka delay
 
-    return () => clearTimeout(timer); // Cleanup timer
+    return () => clearTimeout(timer);
   }, [step]);
 
   return (
@@ -32,14 +31,14 @@ export default function App() {
         />
       )}
 
-      {/* 2️⃣ Gender Selection - Added showExtras check */}
+      {/* 2️⃣ Gender Selection */}
       {step === 2 && (
         <div className="gender-card">
           {showExtras && <RedCross onNext={() => setStep(3)} />}
         </div>
       )}
 
-      {/* 3️⃣ Step with DownArrow - Added showExtras check */}
+      {/* 3️⃣ Step with DownArrow */}
       {step === 3 && (
         <>
           {showExtras && <DownArrow style={{ left: "14%", top: "23%" }} />} 
@@ -66,20 +65,28 @@ export default function App() {
         />
       )}
 
-      {/* 6️⃣ PLAY BUTTON */}
+      {/* 6️⃣ PLAY BUTTON + NEW RED CROSS */}
       {step === 6 && (
-        <Hotspot
-          style={{
-            left: "20%",
-            bottom: "8%",
-            width: "60%",
-            height: "15%",
-          }}
-          onNext={() => setStep(7)}
-        />
+        <>
+          {/* Play Button Hotspot */}
+          <Hotspot
+            style={{
+              left: "20%",
+              bottom: "8%",
+              width: "60%",
+              height: "15%",
+            }}
+            onNext={() => {}} // Play button click par kuch nahi hoga ya aap jo chahein wo add karein
+          />
+          
+          {/* ✅ Naya Red Cross Step 6 par (Step 2 wali position) */}
+          <div className="gender-card">
+            {showExtras && <RedCross onNext={() => setStep(7)} />}
+          </div>
+        </>
       )}
 
-      {/* 7️⃣ LEFT SIDE ARROW - Added showExtras check */}
+      {/* 7️⃣ LEFT SIDE ARROW */}
       {step === 7 && (
         <>
           {showExtras && <LeftArrow style={{ left: "28%", bottom: "15%" }} />}
@@ -93,7 +100,7 @@ export default function App() {
   );
 }
 
-/* Baki components same rahenge */
+/* --- Components (Same as before) --- */
 function LeftArrow({ style }) {
   return <div className="left-arrow" style={style}>◀</div>;
 }
