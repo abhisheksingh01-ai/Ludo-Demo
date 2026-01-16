@@ -9,6 +9,7 @@ body {
   overflow: hidden;
 }
 
+/* Full screen container */
 .screen {
   position: relative;
   width: 100vw;
@@ -24,28 +25,35 @@ body {
   user-select: none;
 }
 
-/* Invisible hotspots */
+/* Invisible click areas */
 .hotspot {
   position: absolute;
   z-index: 10;
   touch-action: manipulation;
 }
 
-/* 🔴 RED CROSS BUTTON */
+/* 🟦 Gender card wrapper (stable on mobile & web) */
+.gender-card {
+  position: absolute;
+  left: 15%;
+  top: 28%;
+  width: 70%;
+  height: 34%;
+}
+
+/* 🔴 Red Cross Button */
 .red-cross {
   position: absolute;
+  top: -14px;
+  right: -14px;
 
-  /* 📌 Gender card top-right (adjust if needed) */
-  top: 29%;
-  right: 17%;
-
-  width: 55px;          /* ⬅ increased */
-  height: 55px;         /* ⬅ increased */
+  width: 48px;
+  height: 48px;
 
   background: #ff2e2e;
   color: #fff;
 
-  font-size: 30px;      /* ⬅ bigger X */
+  font-size: 34px;
   font-weight: bold;
 
   border-radius: 50%;
@@ -54,7 +62,6 @@ body {
   justify-content: center;
 
   z-index: 20;
-  touch-action: manipulation;
   box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+  touch-action: manipulation;
 }
-
