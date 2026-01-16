@@ -32,7 +32,7 @@ export default function App() {
       {step === 3 && (
         <>
           {/* 👇 MOVED: Higher (15%) and to the Left (10%) */}
-          <DownArrow style={{ left: "14%", top: "18%" }} /> 
+          <DownArrow style={{ left: "14%", top: "12%" }} /> 
           
           <Hotspot
             style={{ left: "5%", top: "40%", width: "45%", height: "25%" }}
