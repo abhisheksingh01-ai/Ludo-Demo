@@ -20,12 +20,9 @@ export default function App() {
         />
       )}
 
-      {/* 2️⃣ ❌ Cross Button (Gender popup) */}
+      {/* 2️⃣ RED ❌ Cross Button (VISIBLE) */}
       {step === 2 && (
-        <Hotspot
-          style={{ left: "82%", top: "10%", width: "12%", height: "10%" }}
-          onNext={() => setStep(3)}
-        />
+        <RedCross onClick={() => setStep(3)} />
       )}
 
       {/* 3️⃣ Online Card (Home) */}
@@ -59,12 +56,11 @@ export default function App() {
           onNext={() => setStep(7)}
         />
       )}
-
-      {/* 7️⃣ Final Screen – no click */}
     </div>
   );
 }
 
+/* Invisible hotspot (other pages) */
 function Hotspot({ style, onNext }) {
   const handleTouch = (e) => {
     e.preventDefault();
@@ -78,5 +74,23 @@ function Hotspot({ style, onNext }) {
       style={style}
       onTouchStart={handleTouch}
     />
+  );
+}
+
+/* 🔴 Visible RED Cross Button */
+function RedCross({ onClick }) {
+  const handleTouch = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClick();
+  };
+
+  return (
+    <div
+      className="red-cross"
+      onTouchStart={handleTouch}
+    >
+      ✕
+    </div>
   );
 }
