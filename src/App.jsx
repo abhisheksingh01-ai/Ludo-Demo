@@ -1,10 +1,12 @@
 import { useState } from "react";
+import "./styles.css";
 
 export default function App() {
   const [step, setStep] = useState(1);
 
   return (
     <div className="screen">
+      {/* Background image */}
       <img
         src={import.meta.env.BASE_URL + `screens/s${step}.jpeg`}
         className="bg"
@@ -20,7 +22,7 @@ export default function App() {
         />
       )}
 
-      {/* 2️⃣ Gender Selection – RED ❌ Cross */}
+      {/* 2️⃣ Gender Selection */}
       {step === 2 && (
         <div className="gender-card">
           <RedCross onNext={() => setStep(3)} />
@@ -51,20 +53,18 @@ export default function App() {
         />
       )}
 
-      {/* 6️⃣ Play Button – ONE TAP FIXED */}
+      {/* 6️⃣ ▶ PLAY BUTTON – MOBILE FIXED */}
       {step === 6 && (
         <Hotspot
           style={{ left: "20%", top: "65%", width: "60%", height: "15%" }}
           onNext={() => setStep(7)}
         />
       )}
-
-      {/* 7️⃣ Final Screen – no interaction */}
     </div>
   );
 }
 
-/* 🔥 Universal Hotspot – works on mobile & desktop */
+/* 🔥 Universal Hotspot */
 function Hotspot({ style, onNext }) {
   return (
     <div
@@ -75,16 +75,26 @@ function Hotspot({ style, onNext }) {
         e.stopPropagation();
         onNext();
       }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onNext();
+      }}
     />
   );
 }
 
-/* 🔴 Visible Red Cross */
+/* 🔴 Red Cross */
 function RedCross({ onNext }) {
   return (
     <div
       className="red-cross"
       onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onNext();
+      }}
+      onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         onNext();

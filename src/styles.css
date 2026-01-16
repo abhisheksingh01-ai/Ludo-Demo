@@ -1,47 +1,78 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
 }
 
 body {
   background: #000;
   overflow: hidden;
+  touch-action: manipulation;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
 }
 
-/* Full screen container */
+/* ===============================
+   FULL SCREEN APP CONTAINER
+================================ */
 .screen {
   position: relative;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
-/* Background image */
+/* ===============================
+   BACKGROUND IMAGE
+   (MUST NOT BLOCK TOUCH)
+================================ */
 .bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  pointer-events: none;
+  pointer-events: none;     /* 🔥 CRITICAL FIX */
   user-select: none;
+  -webkit-user-drag: none;
 }
 
-/* Invisible click areas */
+/* ===============================
+   INVISIBLE CLICK / TAP ZONES
+================================ */
 .hotspot {
   position: absolute;
   z-index: 10;
+  background: rgba(255, 0, 0, 0); /* invisible */
   touch-action: manipulation;
 }
 
-/* 🟦 Gender card wrapper (stable on mobile & web) */
+/* ===============================
+   GENDER CARD CONTAINER
+================================ */
 .gender-card {
   position: absolute;
   left: 15%;
   top: 28%;
   width: 70%;
   height: 34%;
+  z-index: 15;
 }
 
-/* 🔴 Red Cross Button */
+/* ===============================
+   RED CROSS CLOSE BUTTON
+================================ */
 .red-cross {
   position: absolute;
   top: -14px;
@@ -51,7 +82,7 @@ body {
   height: 48px;
 
   background: #ff2e2e;
-  color: #fff;
+  color: #ffffff;
 
   font-size: 34px;
   font-weight: bold;
@@ -61,7 +92,20 @@ body {
   align-items: center;
   justify-content: center;
 
+  cursor: pointer;
   z-index: 20;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
   touch-action: manipulation;
 }
+
+/* ===============================
+   OPTIONAL DEBUG MODE
+   (UNCOMMENT TO SEE HOTSPOTS)
+================================ */
+/*
+.hotspot {
+  background: rgba(0, 255, 0, 0.25);
+  outline: 2px dashed lime;
+}
+*/
