@@ -20,12 +20,14 @@ export default function App() {
         />
       )}
 
-      {/* 2️⃣ RED ❌ Cross Button (VISIBLE) */}
+      {/* 2️⃣ Gender Selection – RED ❌ Cross */}
       {step === 2 && (
-        <RedCross onClick={() => setStep(3)} />
+        <div className="gender-card">
+          <RedCross onNext={() => setStep(3)} />
+        </div>
       )}
 
-      {/* 3️⃣ Online Card (Home) */}
+      {/* 3️⃣ Online Card */}
       {step === 3 && (
         <Hotspot
           style={{ left: "5%", top: "40%", width: "45%", height: "25%" }}
@@ -33,7 +35,7 @@ export default function App() {
         />
       )}
 
-      {/* 4️⃣ Online Card (Popup) */}
+      {/* 4️⃣ Online Popup */}
       {step === 4 && (
         <Hotspot
           style={{ left: "10%", top: "42%", width: "80%", height: "22%" }}
@@ -49,46 +51,44 @@ export default function App() {
         />
       )}
 
-      {/* 6️⃣ Play Button */}
+      {/* 6️⃣ Play Button – ONE TAP FIXED */}
       {step === 6 && (
         <Hotspot
           style={{ left: "20%", top: "65%", width: "60%", height: "15%" }}
           onNext={() => setStep(7)}
         />
       )}
+
+      {/* 7️⃣ Final Screen – no interaction */}
     </div>
   );
 }
 
-/* Invisible hotspot (other pages) */
+/* 🔥 Universal Hotspot – works on mobile & desktop */
 function Hotspot({ style, onNext }) {
-  const handleTouch = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onNext();
-  };
-
   return (
     <div
       className="hotspot"
       style={style}
-      onTouchStart={handleTouch}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onNext();
+      }}
     />
   );
 }
 
-/* 🔴 Visible RED Cross Button */
-function RedCross({ onClick }) {
-  const handleTouch = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onClick();
-  };
-
+/* 🔴 Visible Red Cross */
+function RedCross({ onNext }) {
   return (
     <div
       className="red-cross"
-      onTouchStart={handleTouch}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onNext();
+      }}
     >
       ✕
     </div>
