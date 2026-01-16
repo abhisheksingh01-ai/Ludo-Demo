@@ -6,7 +6,7 @@ export default function App() {
 
   return (
     <div className="screen">
-      {/* Background image */}
+      {/* Background Image */}
       <img
         src={import.meta.env.BASE_URL + `screens/s${step}.jpeg`}
         className="bg"
@@ -53,10 +53,15 @@ export default function App() {
         />
       )}
 
-      {/* 6️⃣ ▶ PLAY BUTTON – MOBILE FIXED */}
+      {/* 6️⃣ ▶ PLAY BUTTON (BOTTOM BASED – MOBILE SAFE) */}
       {step === 6 && (
         <Hotspot
-          style={{ left: "20%", top: "65%", width: "60%", height: "15%" }}
+          style={{
+            left: "20%",
+            bottom: "8%",
+            width: "60%",
+            height: "15%",
+          }}
           onNext={() => setStep(7)}
         />
       )}
@@ -64,13 +69,13 @@ export default function App() {
   );
 }
 
-/* 🔥 Universal Hotspot */
+/* 🔥 UNIVERSAL HOTSPOT – REAL MOBILE SAFE */
 function Hotspot({ style, onNext }) {
   return (
     <div
       className="hotspot"
       style={style}
-      onPointerDown={(e) => {
+      onTouchStart={(e) => {
         e.preventDefault();
         e.stopPropagation();
         onNext();
@@ -84,12 +89,12 @@ function Hotspot({ style, onNext }) {
   );
 }
 
-/* 🔴 Red Cross */
+/* 🔴 RED CROSS */
 function RedCross({ onNext }) {
   return (
     <div
       className="red-cross"
-      onPointerDown={(e) => {
+      onTouchStart={(e) => {
         e.preventDefault();
         e.stopPropagation();
         onNext();
