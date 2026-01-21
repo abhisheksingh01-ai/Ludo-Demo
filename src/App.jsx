@@ -70,7 +70,7 @@ export default function App() {
       {/* Step 3: Interaction */}
       {step === 3 && (
         <>
-          {showExtras && <DownArrow style={{ left: "19%", top: "30%" }} />}
+          {showExtras && <DownArrow style={{ left: "19%", top: "32%" }} />}
           <Hotspot style={{ left: "5%", top: "40%", width: "45%", height: "25%" }} onNext={() => setStep(4)} />
         </>
       )}
@@ -92,7 +92,7 @@ export default function App() {
       {/* Step 7: Final */}
       {step === 7 && (
         <>
-          {showExtras && <LeftArrow style={{ left: "28%", bottom: "15%" }} />}
+          {showExtras && <LeftArrow style={{ left: "25%", bottom: "3%" }} />}
           <Hotspot style={{ left: "5%", bottom: "10%", width: "30%", height: "20%" }} />
         </>
       )}
