@@ -2,18 +2,52 @@ import { useState, useEffect } from "react";
 import "./styles.css";
 
 export default function App() {
+  // 🆕 State for the loading screen (starts as true)
+  const [isLoading, setIsLoading] = useState(true);
+
   const [step, setStep] = useState(1);
   const [showExtras, setShowExtras] = useState(false);
 
+  // 🆕 Effect to handle the 30-second loading timer
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Hide loading screen after 30 seconds
+    }, 2000); // 30000ms = 30 seconds
+
+    return () => clearTimeout(timer); // Cleanup timer if component unmounts
+  }, []);
+
+  // Existing logic for step animations
+  useEffect(() => {
+    if (isLoading) return;
+
     setShowExtras(false);
     const timer = setTimeout(() => {
       setShowExtras(true);
-    }, 1000); // 1 second ka delay
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [step]);
+  }, [step, isLoading]);
 
+  // 1️⃣ RENDER LOADING SCREEN
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <video
+          src={import.meta.env.BASE_URL + "screens/loading.mp4"}
+          className="loading-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    );
+  }
+
+  // 2️⃣ RENDER MAIN APP (Once loading is finished)
   return (
     <div className="screen">
       <img
@@ -24,11 +58,27 @@ export default function App() {
       />
 
       {/* 1️⃣ Guest Login */}
+      {/* 1️⃣ Login Screen - Hotspots for Imo, Facebook, and Guest */}
       {step === 1 && (
-        <Hotspot
-          style={{ left: "20%", top: "60%", width: "60%", height: "10%" }}
-          onNext={() => setStep(2)}
-        />
+        <>
+          {/* Login with imo */}
+          <Hotspot
+            style={{ left: "20%", top: "30%", width: "60%", height: "8%" }}
+            onNext={() => setStep(2)}
+          />
+
+          {/* Login with Facebook */}
+          <Hotspot
+            style={{ left: "20%", top: "40%", width: "60%", height: "8%" }}
+            onNext={() => setStep(2)}
+          />
+
+          {/* Guest Login Text */}
+          <Hotspot
+            style={{ left: "35%", top: "50%", width: "30%", height: "5%" }}
+            onNext={() => setStep(2)}
+          />
+        </>
       )}
 
       {/* 2️⃣ Gender Selection */}
@@ -41,7 +91,7 @@ export default function App() {
       {/* 3️⃣ Step with DownArrow */}
       {step === 3 && (
         <>
-          {showExtras && <DownArrow style={{ left: "14%", top: "23%" }} />} 
+          {showExtras && <DownArrow style={{ left: "14%", top: "23%" }} />}
           <Hotspot
             style={{ left: "5%", top: "40%", width: "45%", height: "25%" }}
             onNext={() => setStep(4)}
@@ -68,7 +118,6 @@ export default function App() {
       {/* 6️⃣ PLAY BUTTON + NEW RED CROSS */}
       {step === 6 && (
         <>
-          {/* Play Button Hotspot */}
           <Hotspot
             style={{
               left: "20%",
@@ -76,10 +125,9 @@ export default function App() {
               width: "60%",
               height: "15%",
             }}
-            onNext={() => {}} // Play button click par kuch nahi hoga ya aap jo chahein wo add karein
+            onNext={() => { }}
           />
-          
-          {/* ✅ Naya Red Cross Step 6 par (Step 2 wali position) */}
+
           <div className="gender-card">
             {showExtras && <RedCross onNext={() => setStep(7)} />}
           </div>
@@ -92,7 +140,6 @@ export default function App() {
           {showExtras && <LeftArrow style={{ left: "28%", bottom: "15%" }} />}
           <Hotspot
             style={{ left: "5%", bottom: "10%", width: "30%", height: "20%" }}
-            onNext={() => setStep(8)}
           />
         </>
       )}
