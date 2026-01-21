@@ -92,7 +92,7 @@ export default function App() {
       {/* Step 7: Final */}
       {step === 7 && (
         <>
-          {showExtras && <LeftArrow style={{ left: "25%", bottom: "3%" }} />}
+          {showExtras && <LeftArrow style={{ left: "28%", bottom: "2%" }} />}
           <Hotspot style={{ left: "5%", bottom: "10%", width: "30%", height: "20%" }} />
         </>
       )}
